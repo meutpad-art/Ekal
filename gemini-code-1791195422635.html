@@ -1,0 +1,2097 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ekal Handloom Management System</title>
+<!-- Google Fonts for crisp & modern typography -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #11382c;
+  --primary-light: #174c3d;
+  --primary-accent: #226d58;
+  --primary-subtle: #f0f7f4;
+  --primary-border: #cbe3d9;
+  --bg-main: #f4f7f6;
+  --text-dark: #111827;
+  --text-muted: #6b7280;
+  --surface: #ffffff;
+  --border-color: #e5e7eb;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+*{box-sizing:border-box}
+body{margin:0;font-family:'Plus Jakarta Sans', Arial, sans-serif;background:var(--bg-main);color:var(--text-dark);-webkit-font-smoothing:antialiased}
+
+/* Header Styling */
+header{
+  height:70px;
+  background:linear-gradient(135deg, #0d2e24 0%, var(--primary-light) 100%);
+  color:#fff;
+  padding:0 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:50;
+  box-shadow:0 4px 20px rgba(0,0,0,0.15);
+  border-bottom:1px solid rgba(255,255,255,0.1)
+}
+.logo-container{display:flex;align-items:center;gap:14px}
+.brand-icon{
+  width:42px;
+  height:42px;
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,0.2)
+}
+.brand-icon svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.logo{font-weight:800;font-size:19px;letter-spacing:-0.3px;color:#ffffff}
+.sub{font-size:11.5px;color:rgba(255,255,255,0.75);margin-top:1px;font-weight:500}
+
+/* Aside Navigation */
+aside{
+  width:250px;
+  background:var(--surface);
+  border-right:1px solid var(--border-color);
+  position:fixed;
+  top:70px;
+  bottom:0;
+  padding:16px 12px;
+  overflow-y:auto;
+  z-index:40;
+  box-shadow:2px 0 10px rgba(0,0,0,0.02)
+}
+nav button{
+  width:100%;
+  border:0;
+  background:transparent;
+  text-align:left;
+  padding:11px 14px;
+  border-radius:8px;
+  margin:4px 0;
+  cursor:pointer;
+  font-size:13.5px;
+  font-weight:600;
+  color:#4b5563;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  transition:all 0.2s cubic-bezier(0.4, 0, 0.2, 1)
+}
+nav button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:0.75;transition:all 0.2s}
+nav button.active,nav button:hover{background:var(--primary-subtle);color:var(--primary);font-weight:700}
+nav button.active svg,nav button:hover svg{opacity:1;stroke:var(--primary)}
+
+/* Main Layout */
+main{margin-left:250px;padding:28px;min-height:calc(100vh - 70px)}
+.title{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;flex-wrap:wrap;gap:14px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card,.panel{
+  background:var(--surface);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  padding:20px;
+  box-shadow:var(--shadow-sm);
+  transition:all 0.2s ease
+}
+.card{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  border-top:4px solid var(--primary-light);
+  background:linear-gradient(180deg, #ffffff 0%, #fbfcfc 100%)
+}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.num{font-size:26px;font-weight:800;margin-top:8px;color:var(--primary);letter-spacing:-0.5px}
+.muted{color:var(--text-muted);font-size:12.5px;font-weight:500}
+.grid{display:grid;grid-template-columns:1.6fr 1fr;gap:20px;margin-top:20px}
+
+/* Tables & Controls */
+.table-responsive{overflow-x:auto;width:100%;margin-top:12px;border-radius:10px;border:1px solid var(--border-color)}
+table{width:100%;border-collapse:collapse;white-space:nowrap}
+th,td{padding:12px 16px;border-bottom:1px solid var(--border-color);text-align:left;font-size:13px}
+th{background:#f9fafb;color:#374151;font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:0.5px}
+tr:last-child td{border-bottom:none}
+tr:hover{background:#f8faf9}
+
+.btn{
+  border:1px solid #d1d5db;
+  background:#fff;
+  padding:8px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:12.5px;
+  font-weight:600;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  box-shadow:0 1px 2px rgba(0,0,0,0.05);
+  transition:all 0.2s ease
+}
+.btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn:hover{background:#f9fafb;border-color:#9ca3af}
+.btn.sm{padding:6px 10px;font-size:11.5px;border-radius:6px}
+.primary{background:var(--primary-light);color:#fff;border-color:var(--primary-light)}
+.primary:hover{background:var(--primary);border-color:var(--primary)}
+
+/* Badges */
+.badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;display:inline-block;background:#e6f4ed;color:#16714b}
+.pending{background:#fef3c7;color:#92400e}
+.inactive{background:#fee2e2;color:#991b1b}
+.danger{color:#dc2626;border-color:#fca5a5;background:#fef2f2}.danger:hover{background:#fee2e2}
+.edit-btn{color:var(--primary-light);border-color:var(--primary-border);background:var(--primary-subtle)}.edit-btn:hover{background:#e1f0ea}
+
+/* Forms & Modals */
+.form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field label{display:block;font-size:12px;color:#374151;font-weight:600;margin-bottom:6px}
+.field input,.field select,.field textarea{
+  width:100%;
+  padding:10px 12px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  font-size:13px;
+  background:#fff;
+  outline:none;
+  transition:all 0.2s
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px rgba(23, 76, 61, 0.1)}
+.full{grid-column:1/-1}
+
+.modal{display:none;position:fixed;inset:0;background:rgba(17,24,39,0.6);align-items:center;justify-content:center;z-index:200;backdrop-filter:blur(4px)}
+.modal.show{display:flex}
+.box{background:#fff;border-radius:16px;padding:24px;width:min(720px,94vw);max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.modalhead{display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;margin-bottom:18px;border-bottom:1px solid var(--border-color)}
+.modalhead h3{margin:0;font-size:19px;color:var(--primary);font-weight:700}
+
+/* Login */
+.login{position:fixed;inset:0;background:linear-gradient(135deg, #0d2e24 0%, #174c3d 100%);display:flex;align-items:center;justify-content:center;z-index:300}
+.loginbox{background:#fff;padding:36px;border-radius:18px;width:420px;box-shadow:var(--shadow-lg)}
+.loginbox input{width:100%;padding:11px;margin:8px 0;border:1px solid #d1d5db;border-radius:8px;outline:none}
+.loginbox input:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px rgba(23, 76, 61, 0.1)}
+
+.toast{position:fixed;right:24px;bottom:24px;background:var(--primary);color:#fff;padding:12px 22px;border-radius:10px;display:none;z-index:400;font-size:13.5px;font-weight:600;box-shadow:var(--shadow-lg)}
+.small{font-size:11.5px}
+.actions{white-space:nowrap;display:flex;gap:6px}
+.filter-bar{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;background:var(--surface);padding:12px 16px;border-radius:10px;border:1px solid var(--border-color);box-shadow:var(--shadow-sm)}
+.filter-bar input,.filter-bar select{padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:12.5px;outline:none}
+
+.tag{font-size:10px;padding:3px 8px;border-radius:6px;background:#f3f4f6;color:#374151;font-weight:700;text-transform:uppercase}
+.tag-admin{background:#dcfce7;color:#15803d}
+.locked-banner{padding:12px 16px;background:#fef2f2;border-left:4px solid #ef4444;color:#991b1b;margin-bottom:16px;border-radius:0 8px 8px 0;font-size:13px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-sm)}
+
+/* Admin Panel Grid */
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;margin-top:20px}
+.admin-card{background:#fff;border:1px solid var(--border-color);border-radius:14px;padding:22px;cursor:pointer;transition:all 0.25s ease;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.admin-card::before{content:"";position:absolute;top:0;left:0;width:5px;height:100%;background:var(--primary-light);opacity:0;transition:opacity 0.2s ease}
+.admin-card:hover{transform:translateY(-4px);box-shadow:0 12px 20px -5px rgba(23,76,61,0.12);border-color:var(--primary-border)}
+.admin-card:hover::before{opacity:1}
+.admin-card-header{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.admin-card-icon{width:46px;height:46px;border-radius:12px;background:var(--primary-subtle);display:flex;align-items:center;justify-content:center;color:var(--primary-light);flex-shrink:0}
+.admin-card-icon svg{width:24px;height:24px;stroke:var(--primary-light);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.admin-card-title{margin:0;color:var(--primary);font-size:16.5px;font-weight:700}
+.admin-card-desc{color:var(--text-muted);font-size:12.5px;line-height:1.5;margin:0 0 16px 0}
+.admin-card-footer{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700;color:var(--primary-light);border-top:1px solid #f3f4f6;padding-top:12px;margin-top:auto}
+
+.view-only-lock{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:6px;background:#fef2f2;color:#991b1b;border:1px solid #fecaca;font-size:11px;font-weight:600}
+.view-only-lock svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+@media print {
+  header, aside, .filter-bar, .btn, .locked-banner { display: none !important; }
+  main { margin-left: 0 !important; padding: 0 !important; }
+  .panel { border: none !important; box-shadow: none !important; margin-bottom: 20px !important; }
+  body { background: #fff !important; }
+}
+
+@media(max-width:900px){aside{width:210px}.cards{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}main{margin-left:210px}}
+@media(max-width:650px){aside{display:none}main{margin-left:0;padding:16px}.cards,.form{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="login" class="login">
+  <div class="loginbox">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+      <div style="width:42px;height:42px;background:var(--primary-light);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff">
+        <svg style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <div>
+        <h2 style="margin:0;color:var(--primary);font-size:20px;font-weight:800">Ekal Handloom</h2>
+        <p class="muted" style="margin:0;font-size:12px">Project Management Portal</p>
+      </div>
+    </div>
+
+    <!-- Login Mode Switch Tabs -->
+    <div style="display:flex;gap:6px;margin:16px 0 12px 0;background:#f3f4f6;padding:4px;border-radius:8px">
+      <button id="tabPassword" onclick="switchLoginMode('pass')" style="flex:1;padding:8px;border:none;border-radius:6px;background:var(--primary-light);color:#fff;font-weight:600;font-size:12px;cursor:pointer">Password Login</button>
+      <button id="tabOtp" onclick="switchLoginMode('otp')" style="flex:1;padding:7px;border:none;border-radius:6px;background:transparent;color:#374151;font-weight:600;font-size:12px;cursor:pointer">OTP Login</button>
+    </div>
+
+    <div style="margin:12px 0">
+      <label class="small" style="font-weight:700;color:#374151">Select Role / User Login Profile:</label>
+      <select id="quickLogin" onchange="applyQuickLogin()" style="width:100%;padding:10px;margin:6px 0 12px 0;border:1px solid #d1d5db;border-radius:8px;font-size:12.5px;outline:none">
+        <!-- Dynamically populated from db.users -->
+      </select>
+      
+      <!-- Password Fields -->
+      <div id="passLoginGroup">
+        <input id="loginEmail" placeholder="Enter Login Email ID or Registered Phone" value="">
+        <input id="loginPass" type="password" placeholder="Enter Password" value="">
+      </div>
+
+      <!-- OTP Fields -->
+      <div id="otpLoginGroup" style="display:none">
+        <div style="display:flex;gap:8px;align-items:center">
+          <input id="loginPhone" placeholder="Enter Registered Mobile No." value="" style="flex:1">
+          <button class="btn primary" id="sendOtpBtn" onclick="sendOTP()" style="padding:11px;font-size:12px;white-space:nowrap">Send OTP</button>
+        </div>
+        <input id="loginOtp" placeholder="Enter 6-Digit OTP" value="" style="margin-top:8px;display:none">
+      </div>
+    </div>
+
+    <button class="btn primary" id="loginBtn" style="width:100%;justify-content:center;padding:11px;font-size:13.5px;margin-top:6px">
+      <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+      Sign In
+    </button>
+  </div>
+</div>
+
+<header>
+  <div class="logo-container">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <div>
+      <div class="logo">Ekal Handloom Management System</div>
+      <div class="sub">Ekal Gramothan Foundation • Project Control Portal</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px">
+    <span id="sessionUser" class="small" style="background:rgba(255,255,255,0.12);padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.2)"></span>
+    <button class="btn" id="logoutBtn" style="background:#fff;color:var(--primary);border:0;font-weight:700">
+      <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg> Logout
+    </button>
+  </div>
+</header>
+
+<aside>
+<nav id="nav">
+  <button data-page="dashboard" class="active">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+    Dashboard
+  </button>
+  <button data-page="attendance">
+    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Attendance
+  </button>
+  <button data-page="centres">
+    <svg viewBox="0 0 24 24"><path d="M3 21h18M3 7v14M21 7v14M6 21V10a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v11M9 21v-4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4"/></svg>
+    Centres
+  </button>
+  <button data-page="production">
+    <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+    Production
+  </button>
+  <button data-page="workers">
+    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    Women & Trainees
+  </button>
+  <button data-page="yarn">
+    <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+    Yarn & Stock
+  </button>
+  <button data-page="payments">
+    <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    Payments
+  </button>
+  <button data-page="training">
+    <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+    Training
+  </button>
+  <button data-page="tasks">
+    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    Tasks & Followup
+  </button>
+  <button data-page="reports" id="nav-reports">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+    Reports
+  </button>
+  <button data-page="ai">
+    <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+    AI Assistant
+  </button>
+  <button data-page="users" id="nav-users" style="display:none">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    User Access & Roles
+  </button>
+  <button data-page="useractivity" id="nav-useractivity" style="display:none">
+    <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg>
+    User Activity Audit Log
+  </button>
+  <button data-page="backup" id="nav-backup">
+    <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+    Backup & Restore
+  </button>
+  <button data-page="adminpanel" id="nav-adminpanel">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    Executive Control Hub
+  </button>
+</nav>
+</aside>
+
+<main id="main"></main>
+
+<div id="modal" class="modal">
+  <div class="box">
+    <div class="modalhead">
+      <h3 id="mt">Modal Title</h3>
+      <button class="btn sm" id="closeModal">✕ Close</button>
+    </div>
+    <div id="mb"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+"use strict";
+
+const KEY = "ekal_handloom_persistent_v13";
+const SESSION = "ekal_handloom_session_v13";
+const DAILY_SNAP_KEY = "ekal_handloom_daily_snapshot_v13";
+
+const demo = {
+ users: [
+  {id: "u1", name: "System Administrator", email: "admin@ekal.local", pass: "admin123", role: "ADMINISTRATOR", centre: "All Centres", accessLevel: "FULL", phone: "9876543210"},
+  {id: "u2", name: "Executive Director", email: "ed@ekal.local", pass: "ed123", role: "EXECUTIVE_DIRECTOR", centre: "All Centres", accessLevel: "FULL", phone: "9876543216"},
+  {id: "u3", name: "Executive Assistant", email: "ea@ekal.local", pass: "ea123", role: "EXECUTIVE_ASSISTANT", centre: "All Centres", accessLevel: "EDIT", phone: "9876543217"},
+  {id: "u4", name: "Incharge Dindori", email: "dindori@ekal.local", pass: "din123", role: "CENTRE_INCHARGE", centre: "IVD Dindori", accessLevel: "EDIT", phone: "9876543211"},
+  {id: "u5", name: "Incharge Junnardeo", email: "junnardeo@ekal.local", pass: "jun123", role: "CENTRE_INCHARGE", centre: "IVD Junnardeo", accessLevel: "EDIT", phone: "9876543218"},
+  {id: "u6", name: "Incharge Bisra", email: "bisra@ekal.local", pass: "bis123", role: "CENTRE_INCHARGE", centre: "IVD Bisra", accessLevel: "EDIT", phone: "9876543219"},
+  {id: "u7", name: "Incharge Karanjo", email: "karanjo@ekal.local", pass: "kar123", role: "CENTRE_INCHARGE", centre: "GRC Karanjo", accessLevel: "EDIT", phone: "9876543220"},
+  {id: "u8", name: "Anjali Gupta", email: "hr@ekal.local", pass: "hr123", role: "HR", centre: "All Centres", accessLevel: "VIEW_ONLY", phone: "9876543212"},
+  {id: "u9", name: "Vikram Singh", email: "project_int@ekal.local", pass: "phead123", role: "PROJECT_HEAD_INTERNAL", centre: "All Centres", accessLevel: "EDIT", phone: "9876543213"},
+  {id: "u10", name: "Suresh Kumar", email: "project_ext@ekal.local", pass: "pext123", role: "PROJECT_HEAD_EXTERNAL", centre: "All Centres", accessLevel: "EDIT", phone: "9876543214"},
+  {id: "u11", name: "Priya Patel", email: "coord@ekal.local", pass: "coord123", role: "PROJECT_COORDINATOR", centre: "All Centres", accessLevel: "EDIT", phone: "9876543215"},
+  {id: "u12", name: "Rajesh Sharma", email: "officeadmin@ekal.local", pass: "office123", role: "OFFICE_ADMIN", centre: "All Centres", accessLevel: "EDIT", phone: "9876543221"}
+ ],
+ customRoles: ["OFFICE_ADMIN"],
+ activityLogs: [],
+ centres: [
+  {id: "c1", name: "IVD Dindori", state: "Madhya Pradesh", incharge: "Incharge Dindori", opening: "2026-06-02", status: "Active", women: 11, looms: 8},
+  {id: "c2", name: "IVD Junnardeo", state: "Madhya Pradesh", incharge: "Incharge Junnardeo", opening: "2026-09-12", status: "Active", women: 6, looms: 5},
+  {id: "c3", name: "IVD Bisra", state: "Odisha", incharge: "Incharge Bisra", opening: "2026-07-27", status: "Active", women: 8, looms: 6},
+  {id: "c4", name: "GRC Karanjo", state: "Jharkhand", incharge: "Incharge Karanjo", opening: "2026-06-24", status: "Active", women: 12, looms: 10}
+ ],
+ production: [
+  {id: "p1", date: "2026-09-26", centre: "IVD Dindori", product: "Gamcha", qty: 8, unit: "Pieces", worker: "Meena Devi Group", quality: "Good", notes: "Standard Red border", hours: 6, status: "Completed", estTime: "0 Hours"},
+  {id: "p2", date: "2026-09-26", centre: "IVD Dindori", product: "White Fabric", qty: 30, unit: "Meter", worker: "Sunita Maravi", quality: "Good", notes: "2/20 count cotton", hours: 8, status: "Completed", estTime: "0 Hours"},
+  {id: "p3", date: "2026-09-28", centre: "IVD Junnardeo", product: "Saree", qty: 5, unit: "Pieces", worker: "Anita Sahu", quality: "Good", notes: "Silk Cotton", hours: 12, status: "Pending", estTime: "2 Days"}
+ ],
+ workers: [
+  {id: "w1", name: "Meena Devi", centre: "IVD Dindori", role: "Senior Weaver", rate: 120, status: "Active", phone: "9123456780"},
+  {id: "w2", name: "Sunita Maravi", centre: "IVD Dindori", role: "Trainee", rate: 90, status: "Active", phone: "9123456781"},
+  {id: "w3", name: "Anita Sahu", centre: "IVD Junnardeo", role: "Weaver", rate: 110, status: "Active", phone: "9123456782"},
+  {id: "w4", name: "Suman Kumari", centre: "IVD Bisra", role: "Weaver", rate: 100, status: "Active", phone: "9123456783"},
+  {id: "w5", name: "Pooja Munda", centre: "GRC Karanjo", role: "Weaver", rate: 105, status: "Active", phone: "9123456784"}
+ ],
+ yarn: [
+  {id: "y1", centre: "GRC Karanjo", item: "2/20 White Yarn", allocated: 20, received: 18, pending: 2, unit: "kg", status: "Pending", supplier: "Varanasi Mills", allocDate: "2026-09-10", recDate: "2026-09-15"},
+  {id: "y2", centre: "IVD Dindori", item: "30s Colored Yarn", allocated: 25, received: 20, pending: 5, unit: "kg", status: "Pending", supplier: "Bhopal Dept", allocDate: "2026-09-12", recDate: "2026-09-18"}
+ ],
+ payments: [
+  {id: "pay1", date: "2026-09-20", centre: "IVD Dindori", worker: "Meena Devi", work: "8 Gamchas", qty: 8, rate: 120, amount: 960, status: "Paid", ref: "UPI-992812"},
+  {id: "pay2", date: "2026-09-25", centre: "IVD Junnardeo", worker: "Anita Sahu", work: "5 Sarees", qty: 5, rate: 200, amount: 1000, status: "Pending", ref: "-"}
+ ],
+ training: [
+  {id: "tr1", date: "2026-09-15", centre: "IVD Dindori", trainer: "Rajesh Weaver Expert", topic: "Jacquard Design", participants: 12, hours: 6}
+ ],
+ tasks: [
+  {id: "t1", task: "Daily centre production update", centre: "All Centres", due: "2026-09-30", priority: "High", status: "Open", owner: "Project Team"},
+  {id: "t2", task: "Yarn Stock Audit", centre: "IVD Dindori", due: "2026-10-02", priority: "Medium", status: "In Progress", owner: "Dindori Incharge"}
+ ],
+ attendance: [
+  {id: "att1", date: "2026-09-28", centre: "IVD Dindori", workerId: "w1", workerName: "Meena Devi", status: "Present"},
+  {id: "att2", date: "2026-09-29", centre: "IVD Dindori", workerId: "w1", workerName: "Meena Devi", status: "Half Day"},
+  {id: "att3", date: "2026-09-30", centre: "IVD Dindori", workerId: "w1", workerName: "Meena Devi", status: "Absent"}
+ ]
+};
+
+let db = loadDB();
+let current = "dashboard";
+let currentLoginMode = "pass"; // "pass" or "otp"
+let generatedOtp = null;
+let otpMobileTarget = null;
+
+// Helper function to check if a user is an Admin or Executive (who see all centres)
+function isExecutiveOrAdmin(u) {
+ if (!u) return false;
+ return u.role === "ADMINISTRATOR" || u.role === "EXECUTIVE_DIRECTOR" || u.role === "EXECUTIVE_ASSISTANT" || u.centre === "All Centres";
+}
+
+// Helper function to filter array items based on logged in user's centre access
+function filterByCentreAccess(items, centreProp = "centre") {
+ const u = getCurrentUser();
+ if (!u) return [];
+ if (isExecutiveOrAdmin(u)) return items;
+ return items.filter(x => {
+   const val = x[centreProp] || x.name;
+   return val === "All Centres" || val === u.centre;
+ });
+}
+
+function logUserActivity(action, details) {
+ const u = getCurrentUser();
+ if(!u) return;
+ if(!db.activityLogs) db.activityLogs = [];
+ db.activityLogs.unshift({
+   id: nextId("act"),
+   timestamp: new Date().toLocaleString(),
+   userName: u.name,
+   userEmail: u.email,
+   userRole: u.role,
+   action: action,
+   details: details
+ });
+ if(db.activityLogs.length > 500) db.activityLogs.pop();
+ localStorage.setItem(KEY, JSON.stringify(db));
+}
+
+function checkDailySnapshot(data) {
+ try {
+  const today = new Date().toISOString().slice(0, 10);
+  const rawSnap = localStorage.getItem(DAILY_SNAP_KEY);
+  let snapObj = rawSnap ? JSON.parse(rawSnap) : null;
+  if (!snapObj || snapObj.date !== today) {
+    if (snapObj) {
+      localStorage.setItem("ekal_handloom_prev_day_snapshot", JSON.stringify(snapObj));
+    } else {
+      localStorage.setItem("ekal_handloom_prev_day_snapshot", JSON.stringify({ date: today, data: data }));
+    }
+    snapObj = { date: today, data: data };
+    localStorage.setItem(DAILY_SNAP_KEY, JSON.stringify(snapObj));
+  }
+ } catch(e) {}
+}
+
+function autoRecoverCrash() {
+ try {
+  const rawData = localStorage.getItem(KEY);
+  if (!rawData) {
+    const prevSnap = localStorage.getItem("ekal_handloom_prev_day_snapshot") || localStorage.getItem(DAILY_SNAP_KEY);
+    if (prevSnap) {
+      const snapObj = JSON.parse(prevSnap);
+      if (snapObj && snapObj.data) {
+        localStorage.setItem(KEY, JSON.stringify(snapObj.data));
+        showToast("⚠️ Crash Detected: Automatically recovered data up to 1 day prior!");
+      }
+    }
+  }
+ } catch(e) {}
+}
+
+function loadDB() {
+ autoRecoverCrash();
+ try {
+  const raw = localStorage.getItem(KEY);
+  if (raw) {
+    const data = JSON.parse(raw);
+    if (!data.customRoles) data.customRoles = ["OFFICE_ADMIN"];
+    if (!data.activityLogs) data.activityLogs = [];
+    checkDailySnapshot(data);
+    return data;
+  }
+ } catch(e){}
+ localStorage.setItem(KEY, JSON.stringify(demo));
+ checkDailySnapshot(demo);
+ return JSON.parse(JSON.stringify(demo));
+}
+
+function saveDB(msg = "✓ Saved successfully") {
+ localStorage.setItem(KEY, JSON.stringify(db));
+ checkDailySnapshot(db);
+ populateQuickLoginDropdown();
+ showToast(msg);
+}
+
+function nextId(prefix) {
+ return prefix + "_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2,6);
+}
+
+function esc(s) {
+ return String(s ?? "").replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+}
+
+function fmtNum(v) {
+ const n = Number(v || 0);
+ return isNaN(n) ? "0.00" : n.toFixed(2);
+}
+
+function getCurrentUser() {
+ return JSON.parse(localStorage.getItem(SESSION) || "null");
+}
+
+function populateQuickLoginDropdown() {
+ const selectEl = document.getElementById("quickLogin");
+ if (!selectEl) return;
+ let html = `<option value="">-- Choose User Profile --</option>`;
+ db.users.forEach(u => {
+   html += `<option value="${esc(u.email)}">${esc(u.name)} (${esc(u.role)}) - ${esc(u.email)} | Ph: ${esc(u.phone||'-')}</option>`;
+ });
+ selectEl.innerHTML = html;
+}
+
+function switchLoginMode(mode) {
+ currentLoginMode = mode;
+ const tabPass = document.getElementById("tabPassword");
+ const tabOtp = document.getElementById("tabOtp");
+ const passGroup = document.getElementById("passLoginGroup");
+ const otpGroup = document.getElementById("otpLoginGroup");
+
+ if(mode === 'pass') {
+   tabPass.style.background = "var(--primary-light)"; tabPass.style.color = "#fff";
+   tabOtp.style.background = "transparent"; tabOtp.style.color = "#374151";
+   passGroup.style.display = "block";
+   otpGroup.style.display = "none";
+ } else {
+   tabOtp.style.background = "var(--primary-light)"; tabOtp.style.color = "#fff";
+   tabPass.style.background = "transparent"; tabPass.style.color = "#374151";
+   passGroup.style.display = "none";
+   otpGroup.style.display = "block";
+ }
+}
+
+function sendOTP() {
+ const ph = document.getElementById("loginPhone").value.trim();
+ if(!ph) return alert("Please enter registered Mobile Number.");
+ 
+ const u = db.users.find(x => x.phone === ph || x.email.toLowerCase() === ph.toLowerCase());
+ if(!u) return alert("No registered user found with this mobile number/email!");
+
+ generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+ otpMobileTarget = u;
+ 
+ document.getElementById("loginOtp").style.display = "block";
+ alert(`[DEMO OTP SERVICE] Your OTP for Ekal Handloom Sign In is: ${generatedOtp}`);
+ showToast(`OTP sent to ${u.phone || u.email}!`);
+}
+
+function canEditModule(mod, targetCentre = null) {
+ const u = getCurrentUser();
+ if (!u) return false;
+ if (u.accessLevel === "VIEW_ONLY" || u.role === "HR") return false;
+ if (u.role === "ADMINISTRATOR" || u.role === "EXECUTIVE_DIRECTOR" || u.role === "EXECUTIVE_ASSISTANT" || u.accessLevel === "FULL") return true;
+ 
+ if (u.role === "CENTRE_INCHARGE" || u.role === "OFFICE_ADMIN") {
+   if (targetCentre && u.centre !== "All Centres" && targetCentre !== u.centre) {
+     return false; 
+   }
+   return ["attendance", "production", "centres", "yarn", "workers", "payments", "tasks"].includes(mod);
+ }
+ if (mod === "training") {
+   return ["PROJECT_HEAD_INTERNAL", "PROJECT_HEAD_EXTERNAL", "PROJECT_COORDINATOR"].includes(u.role);
+ }
+ return u.accessLevel === "EDIT";
+}
+
+function getActionCellHTML(mod, targetCentre, editJsCall, delJsCall) {
+ const canEdit = canEditModule(mod, targetCentre);
+ if (canEdit) {
+   return `<button class="btn sm edit-btn" onclick="${editJsCall}"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit</button>
+   <button class="btn sm danger" onclick="${delJsCall}"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> Delete</button>`;
+ } else {
+   return `<span class="view-only-lock"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> View Only</span>`;
+ }
+}
+
+function badge(s) {
+ let cls = "badge";
+ if (s === "Pending" || s === "Open" || s === "Medium" || s === "Half Day" || s === "In Progress") cls = "badge pending";
+ else if (s === "Inactive" || s === "High" || s === "Absent") cls = "badge inactive";
+ return `<span class="${cls}">${esc(s)}</span>`;
+}
+
+function showToast(msg) {
+ const t = document.getElementById("toast");
+ t.textContent = msg;
+ t.style.display = "block";
+ clearTimeout(window._toast);
+ window._toast = setTimeout(() => t.style.display = "none", 2200);
+}
+
+function modal(title, html) {
+ document.getElementById("mt").textContent = title;
+ document.getElementById("mb").innerHTML = html;
+ document.getElementById("modal").classList.add("show");
+}
+
+function closeM() {
+ document.getElementById("modal").classList.remove("show");
+}
+
+document.getElementById("closeModal").onclick = closeM;
+document.getElementById("logoutBtn").onclick = () => {
+ const u = getCurrentUser();
+ if(u) logUserActivity("LOGOUT", "User logged out of the session");
+ localStorage.removeItem(SESSION);
+ location.reload();
+};
+
+function applyQuickLogin() {
+ const em = document.getElementById("quickLogin").value;
+ if(em) {
+   const u = db.users.find(x => x.email === em);
+   document.getElementById("loginEmail").value = em;
+   document.getElementById("loginPass").value = u ? u.pass || "" : "";
+   if(u && u.phone) document.getElementById("loginPhone").value = u.phone;
+ }
+}
+
+function login() {
+ let u = null;
+
+ if(currentLoginMode === 'pass') {
+   const em = document.getElementById("loginEmail").value.trim().toLowerCase();
+   const pw = document.getElementById("loginPass").value;
+
+   if(!em) return alert("Please enter Email ID or Phone.");
+   if(!pw) return alert("Please enter Password.");
+
+   u = db.users.find(x => (x.email.toLowerCase() === em || x.phone === em) && (x.pass ? x.pass === pw : true));
+   if (!u) return alert("Invalid Email/Phone or Password!");
+ } else {
+   const enteredOtp = document.getElementById("loginOtp").value.trim();
+   if(!generatedOtp || !otpMobileTarget) return alert("Please click 'Send OTP' first.");
+   if(enteredOtp !== generatedOtp) return alert("Invalid OTP entered!");
+   u = otpMobileTarget;
+ }
+
+ localStorage.setItem(SESSION, JSON.stringify(u));
+ logUserActivity("LOGIN", `User signed in via ${currentLoginMode.toUpperCase()}`);
+ startApp();
+ showToast(`Welcome, ${u.name}!`);
+}
+
+document.getElementById("loginBtn").onclick = login;
+
+function startApp() {
+ populateQuickLoginDropdown();
+ const s = getCurrentUser();
+ if (!s) {
+   document.getElementById("login").style.display = "flex";
+   return;
+ }
+ document.getElementById("login").style.display = "none";
+ document.getElementById("sessionUser").innerHTML = `<b>${esc(s.name)}</b> <span class="tag tag-admin">${esc(s.role)}</span> ${s.centre !== 'All Centres' ? `(${esc(s.centre)})` : ''}`;
+
+ const navUsersBtn = document.getElementById("nav-users");
+ if (navUsersBtn) {
+   navUsersBtn.style.display = (s.role === "ADMINISTRATOR") ? "flex" : "none";
+ }
+
+ const navActivityBtn = document.getElementById("nav-useractivity");
+ if (navActivityBtn) {
+   navActivityBtn.style.display = (s.role === "ADMINISTRATOR") ? "flex" : "none";
+ }
+
+ const navReportsBtn = document.getElementById("nav-reports");
+ if (navReportsBtn) {
+   const allowedRoles = ["ADMINISTRATOR", "EXECUTIVE_DIRECTOR", "EXECUTIVE_ASSISTANT", "PROJECT_HEAD", "PROJECT_HEAD_EXTERNAL", "PROJECT_HEAD_INTERNAL"];
+   navReportsBtn.style.display = allowedRoles.includes(s.role) ? "flex" : "none";
+ }
+
+ render(current);
+}
+
+function go(p) {
+ logUserActivity("NAVIGATE", `Navigated to page: ${p}`);
+ current = p;
+ document.querySelectorAll("#nav button").forEach(b => b.classList.toggle("active", b.dataset.page === p));
+ render(p);
+}
+
+document.querySelectorAll("#nav button").forEach(b => b.onclick = () => go(b.dataset.page));
+
+function render(p) {
+ const handlers = {
+   dashboard, adminpanel, attendance, centres, production, workers, yarn, payments, training, tasks, reports, ai, users, useractivity, backup
+ };
+ if (handlers[p]) handlers[p]();
+}
+
+function val(id) {
+ return document.getElementById(id)?.value?.trim() || "";
+}
+
+function getLockNotice(mod) {
+ if (!canEditModule(mod)) {
+   return `<div class="locked-banner"><svg style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> <div><b>View Only / Restricted Access Mode:</b> Your role (${getCurrentUser()?.role}) is restricted from modifying this section.</div></div>`;
+ }
+ return "";
+}
+
+function delRecord(mod, id) {
+ if(!confirm("Are you sure you want to delete this record?")) return;
+ db[mod] = db[mod].filter(x => x.id !== id);
+ logUserActivity("DELETE_RECORD", `Deleted record ${id} from module ${mod}`);
+ saveDB("✓ Record deleted successfully");
+ render(current);
+}
+
+function downloadCSV(csvContent, fileName) {
+ const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+ const link = document.createElement("a");
+ const url = URL.createObjectURL(blob);
+ link.setAttribute("href", url);
+ link.setAttribute("download", fileName);
+ link.style.visibility = 'hidden';
+ document.body.appendChild(link);
+ link.click();
+ document.body.removeChild(link);
+}
+
+// 1. DASHBOARD
+function dashboard() {
+ const u = getCurrentUser();
+ const userCentres = filterByCentreAccess(db.centres, "name");
+ let selectedCentre = val("dashCentreFilter") || (isExecutiveOrAdmin(u) ? "All" : u.centre);
+ 
+ const accessibleProd = filterByCentreAccess(db.production, "centre");
+ const accessibleYarn = filterByCentreAccess(db.yarn, "centre");
+ const accessibleWorkers = filterByCentreAccess(db.workers, "centre");
+ const accessiblePay = filterByCentreAccess(db.payments, "centre");
+ const accessibleTasks = filterByCentreAccess(db.tasks, "centre");
+
+ const filteredProd = selectedCentre === "All" ? accessibleProd : accessibleProd.filter(x => x.centre === selectedCentre);
+ const filteredYarn = selectedCentre === "All" ? accessibleYarn : accessibleYarn.filter(x => x.centre === selectedCentre);
+ const filteredWorkers = selectedCentre === "All" ? accessibleWorkers : accessibleWorkers.filter(x => x.centre === selectedCentre);
+ const filteredPay = selectedCentre === "All" ? accessiblePay : accessiblePay.filter(x => x.centre === selectedCentre);
+ const filteredCentres = selectedCentre === "All" ? userCentres : userCentres.filter(x => x.name === selectedCentre);
+ const filteredTasks = selectedCentre === "All" ? accessibleTasks : accessibleTasks.filter(x => x.centre === "All Centres" || x.centre === selectedCentre);
+
+ const pcs = filteredProd.filter(x => x.unit === "Pieces").reduce((s, x) => s + Number(x.qty || 0), 0);
+ const meters = filteredProd.filter(x => x.unit === "Meter").reduce((s, x) => s + Number(x.qty || 0), 0);
+ const totalAllocatedYarn = filteredYarn.reduce((s, x) => s + Number(x.allocated || 0), 0);
+ const totalPendingYarn = filteredYarn.reduce((s, x) => s + Number(x.pending || 0), 0);
+ const totalPayout = filteredPay.filter(p => p.status === 'Paid').reduce((s, x) => s + Number(x.amount || 0), 0);
+ const totalLooms = filteredCentres.reduce((s, x) => s + Number(x.looms || 0), 0);
+ const openTasks = filteredTasks.filter(x => x.status !== "Completed").length;
+
+ document.getElementById("main").innerHTML = `
+ <div class="title">
+   <div>
+     <h2 style="margin:0;color:var(--primary);font-size:22px;font-weight:800">Executive Performance Dashboard</h2>
+     <span class="muted">Real-time Operations & Strategic Metrics • Logged in as: <b>${getCurrentUser()?.name}</b> (${getCurrentUser()?.role})</span>
+   </div>
+   <div style="display:flex;gap:10px;align-items:center">
+     <div>
+       <select id="dashCentreFilter" onchange="dashboard()" style="padding:9px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;font-weight:600;background:#fff;color:var(--primary)" ${!isExecutiveOrAdmin(u) ? 'disabled' : ''}>
+         ${isExecutiveOrAdmin(u) ? `<option value="All" ${selectedCentre === "All" ? "selected" : ""}>🏢 All Centres Combined</option>` : ''}
+         ${userCentres.map(c => `<option value="${esc(c.name)}" ${c.name === selectedCentre ? "selected" : ""}>📍 ${esc(c.name)}</option>`).join("")}
+       </select>
+     </div>
+     <button class="btn primary" onclick="go('production')">
+       <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Record Production
+     </button>
+   </div>
+ </div>
+
+ <div class="cards">
+   <div class="card">
+     <div>
+       <div class="muted" style="text-transform:uppercase;font-size:11px;font-weight:700;letter-spacing:0.5px">Active Centres</div>
+       <div class="num">${userCentres.filter(x => x.status === "Active").length} <span style="font-size:14px;color:var(--text-muted);font-weight:500">/ ${userCentres.length} Total</span></div>
+     </div>
+     <div style="margin-top:10px;font-size:11.5px;color:#16714b;font-weight:700">✓ Fully Operational</div>
+   </div>
+   <div class="card">
+     <div>
+       <div class="muted" style="text-transform:uppercase;font-size:11px;font-weight:700;letter-spacing:0.5px">Artisans & Looms</div>
+       <div class="num">${filteredWorkers.length} <span style="font-size:14px;color:var(--text-muted);font-weight:500">Artisans</span></div>
+     </div>
+     <div style="margin-top:10px;font-size:11.5px;color:#374151"><b>${totalLooms}</b> Total Active Looms</div>
+   </div>
+   <div class="card">
+     <div>
+       <div class="muted" style="text-transform:uppercase;font-size:11px;font-weight:700;letter-spacing:0.5px">Total Output</div>
+       <div class="num" style="font-size:22px">${fmtNum(pcs)} <span style="font-size:13px">pcs</span> / ${fmtNum(meters)} <span style="font-size:13px">mtr</span></div>
+     </div>
+     <div style="margin-top:10px;font-size:11.5px;color:var(--primary);font-weight:700">Completed Production</div>
+   </div>
+   <div class="card">
+     <div>
+       <div class="muted" style="text-transform:uppercase;font-size:11px;font-weight:700;letter-spacing:0.5px">Yarn Stock Status</div>
+       <div class="num">${fmtNum(totalAllocatedYarn)} <span style="font-size:13px">kg</span></div>
+     </div>
+     <div style="margin-top:10px;font-size:11.5px;color:${totalPendingYarn > 0 ? '#dc2626' : '#16714b'};font-weight:700">
+       Pending: ${fmtNum(totalPendingYarn)} kg
+     </div>
+   </div>
+   <div class="card">
+     <div>
+       <div class="muted" style="text-transform:uppercase;font-size:11px;font-weight:700;letter-spacing:0.5px">Total Wages Paid</div>
+       <div class="num">₹${fmtNum(totalPayout)}</div>
+     </div>
+     <div style="margin-top:10px;font-size:11.5px;color:#16714b;font-weight:700">✓ Disbursed Wages</div>
+   </div>
+ </div>
+
+ <div class="grid">
+   <div class="panel">
+     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+       <h3 style="margin:0;color:var(--primary);font-size:16px">Centres Operational & Output Summary</h3>
+       <button class="btn sm" onclick="go('centres')">View All Centres</button>
+     </div>
+     <div class="table-responsive">
+       <table>
+         <thead>
+           <tr><th>Centre Name</th><th>State In-Charge</th><th>Opening Date</th><th>Looms</th><th>Women Count</th><th>Status</th></tr>
+         </thead>
+         <tbody>
+         ${filteredCentres.map(c => {
+           const cWorkers = db.workers.filter(w => w.centre === c.name).length;
+           return `<tr>
+             <td><b>${esc(c.name)}</b></td>
+             <td>${esc(c.state)} - ${esc(c.incharge)}</td>
+             <td>${esc(c.opening || '-')}</td>
+             <td><b>${c.looms || 0}</b></td>
+             <td><b>${cWorkers}</b></td>
+             <td>${badge(c.status)}</td>
+           </tr>`;
+         }).join("")}
+         </tbody>
+       </table>
+     </div>
+   </div>
+   
+   <div class="panel">
+     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+       <h3 style="margin:0;color:var(--primary);font-size:16px">Action Items (${openTasks})</h3>
+       <button class="btn sm" onclick="go('tasks')">Manage Tasks</button>
+     </div>
+     <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px">
+       ${filteredTasks.map(t => `
+         <div style="padding:12px;border:1px solid var(--border-color);border-radius:8px;background:#fbfcfc">
+           <div style="display:flex;justify-content:space-between;align-items:center">
+             <b style="font-size:13px">${esc(t.task)}</b>${badge(t.status)}
+           </div>
+           <div class="muted" style="margin-top:6px;font-size:11.5px">Centre: <b>${esc(t.centre)}</b> | Due: ${esc(t.due)}</div>
+         </div>
+       `).join("")}
+     </div>
+   </div>
+ </div>
+
+ <div class="panel" style="margin-top:20px">
+   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+     <h3 style="margin:0;color:var(--primary);font-size:16px">Recent Production Activity</h3>
+     <button class="btn sm" onclick="go('production')">View Production Log</button>
+   </div>
+   <div class="table-responsive">
+     <table>
+       <tr><th>Date</th><th>Centre</th><th>Product Name</th><th>Quantity</th><th>Artisan / Group</th><th>Status</th></tr>
+       ${filteredProd.slice(-5).reverse().map(p => `
+         <tr>
+           <td>${esc(p.date)}</td>
+           <td><b>${esc(p.centre)}</b></td>
+           <td>${esc(p.product)}</td>
+           <td><b>${fmtNum(p.qty)} ${esc(p.unit === 'Pieces' ? 'piece' : 'meter')}</b></td>
+           <td>${esc(p.worker || '-')}</td>
+           <td>${badge(p.status || 'Completed')}</td>
+         </tr>
+       `).join("")}
+     </table>
+   </div>
+ </div>
+ `;
+}
+
+// 2. EXECUTIVE CONTROL HUB
+function adminpanel() {
+ const isAdmin = getCurrentUser()?.role === "ADMINISTRATOR";
+ document.getElementById("main").innerHTML = `
+ <div class="title">
+   <div>
+     <h2 style="margin:0;color:var(--primary);font-size:22px;font-weight:800">Executive Control Hub</h2>
+     <span class="muted">Centralized Management Controls & Operational Modules</span>
+   </div>
+ </div>
+ 
+ <div class="admin-grid">
+   <div class="admin-card" onclick="go('centres')">
+     <div>
+       <div class="admin-card-header">
+         <div class="admin-card-icon">
+           <svg viewBox="0 0 24 24"><path d="M3 21h18M3 7v14M21 7v14M6 21V10a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v11M9 21v-4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4"/></svg>
+         </div>
+         <h3 class="admin-card-title">Centres Control</h3>
+       </div>
+       <p class="admin-card-desc">Manage handloom production centres, state in-charge details, opening dates & active loom counts.</p>
+     </div>
+     <div class="admin-card-footer">
+       <span>Manage Centres</span>
+       <span>→</span>
+     </div>
+   </div>
+
+   <div class="admin-card" onclick="go('production')">
+     <div>
+       <div class="admin-card-header">
+         <div class="admin-card-icon">
+           <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+         </div>
+         <h3 class="admin-card-title">Production Logs</h3>
+       </div>
+       <p class="admin-card-desc">Monitor daily piece & meter output records across all operating handloom clusters.</p>
+     </div>
+     <div class="admin-card-footer">
+       <span>View Production</span>
+       <span>→</span>
+     </div>
+   </div>
+
+   <div class="admin-card" onclick="go('workers')">
+     <div>
+       <div class="admin-card-header">
+         <div class="admin-card-icon">
+           <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+         </div>
+         <h3 class="admin-card-title">Artisans & Trainees</h3>
+       </div>
+       <p class="admin-card-desc">Add and manage profiles of skilled weavers, trainees, and female artisan empowerment groups.</p>
+     </div>
+     <div class="admin-card-footer">
+       <span>Manage Artisans</span>
+       <span>→</span>
+     </div>
+   </div>
+
+   <div class="admin-card" onclick="go('yarn')">
+     <div>
+       <div class="admin-card-header">
+         <div class="admin-card-icon">
+           <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+         </div>
+         <h3 class="admin-card-title">Yarn & Inventory</h3>
+       </div>
+       <p class="admin-card-desc">Allocate raw yarn stocks in kg, track supplier details, and monitor pending deliveries.</p>
+     </div>
+     <div class="admin-card-footer">
+       <span>Manage Stock</span>
+       <span>→</span>
+     </div>
+   </div>
+
+   <div class="admin-card" onclick="go('payments')">
+     <div>
+       <div class="admin-card-header">
+         <div class="admin-card-icon">
+           <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+         </div>
+         <h3 class="admin-card-title">Payments & Wages</h3>
+       </div>
+       <p class="admin-card-desc">Log piece-rate wage calculations and track payment disbursements to artisans.</p>
+     </div>
+     <div class="admin-card-footer">
+       <span>Track Payments</span>
+       <span>→</span>
+     </div>
+   </div>
+
+   <div class="admin-card" onclick="go('training')">
+     <div>
+       <div class="admin-card-header">
+         <div class="admin-card-icon">
+           <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+         </div>
+         <h3 class="admin-card-title">Training Logs</h3>
+       </div>
+       <p class="admin-card-desc">Track skill development programs, expert trainer logs, and artisan training hours.</p>
+     </div>
+     <div class="admin-card-footer">
+       <span>View Training</span>
+       <span>→</span>
+     </div>
+   </div>
+
+   <div class="admin-card" onclick="go('tasks')">
+     <div>
+       <div class="admin-card-header">
+         <div class="admin-card-icon">
+           <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+         </div>
+         <h3 class="admin-card-title">Tasks & Followups</h3>
+       </div>
+       <p class="admin-card-desc">Assign action items, set priority levels, and track operational progress across centres.</p>
+     </div>
+     <div class="admin-card-footer">
+       <span>Manage Tasks</span>
+       <span>→</span>
+     </div>
+   </div>
+
+   ${isAdmin ? `
+   <div class="admin-card" onclick="go('users')">
+     <div>
+       <div class="admin-card-header">
+         <div class="admin-card-icon">
+           <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+         </div>
+         <h3 class="admin-card-title">User Roles & Access</h3>
+       </div>
+       <p class="admin-card-desc">Manage portal access permissions, centre assignments, and user role levels.</p>
+     </div>
+     <div class="admin-card-footer">
+       <span>Manage Access</span>
+       <span>→</span>
+     </div>
+   </div>
+   
+   <div class="admin-card" onclick="go('useractivity')">
+     <div>
+       <div class="admin-card-header">
+         <div class="admin-card-icon">
+           <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg>
+         </div>
+         <h3 class="admin-card-title">User Activity Audit Log</h3>
+       </div>
+       <p class="admin-card-desc">Exclusively for Administrator: View detailed audit logs of which user used what features.</p>
+     </div>
+     <div class="admin-card-footer">
+       <span>View Activity Logs</span>
+       <span>→</span>
+     </div>
+   </div>
+   ` : ''}
+
+   <div class="admin-card" onclick="go('backup')">
+     <div>
+       <div class="admin-card-header">
+         <div class="admin-card-icon">
+           <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+         </div>
+         <h3 class="admin-card-title">Backup & Restore</h3>
+       </div>
+       <p class="admin-card-desc">Export database snapshots as JSON files or restore previous system backups safely.</p>
+     </div>
+     <div class="admin-card-footer">
+       <span>Backup System</span>
+       <span>→</span>
+     </div>
+   </div>
+ </div>
+ `;
+}
+
+// 3. ATTENDANCE
+function attendance() {
+ const canEdit = canEditModule("attendance");
+ const u = getCurrentUser();
+ const userCentres = filterByCentreAccess(db.centres, "name");
+ let selectedCentre = val("attCentre") || (isExecutiveOrAdmin(u) ? "All" : u.centre);
+ let selectedDate = val("attDate") || new Date().toISOString().slice(0,10);
+
+ const accessibleWorkers = filterByCentreAccess(db.workers, "centre");
+ const displayWorkers = selectedCentre === "All" 
+   ? accessibleWorkers 
+   : accessibleWorkers.filter(w => w.centre === selectedCentre);
+
+ document.getElementById("main").innerHTML = `
+ ${getLockNotice("attendance")}
+ <div class="title">
+   <h2 style="color:var(--primary);font-size:20px;font-weight:800;margin:0">Centre-wise Attendance & Summary Counter</h2>
+   ${canEdit ? `<button class="btn primary" onclick="workerModal(null, '${selectedCentre !== "All" ? esc(selectedCentre) : ""}')"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Worker Details</button>` : ""}
+ </div>
+
+ <div class="filter-bar">
+   <div>
+     <label class="small" style="font-weight:700">Centre Dropdown:</label><br>
+     <select id="attCentre" onchange="attendance()" ${!isExecutiveOrAdmin(u) ? "disabled" : ""}>
+       ${isExecutiveOrAdmin(u) ? `<option value="All" ${selectedCentre === "All" ? "selected" : ""}>All Centres (Combined View)</option>` : ''}
+       ${userCentres.map(c => `<option value="${esc(c.name)}" ${c.name === selectedCentre ? "selected" : ""}>${esc(c.name)}</option>`).join("")}
+     </select>
+   </div>
+   <div>
+     <label class="small" style="font-weight:700">Date:</label><br>
+     <input id="attDate" type="date" value="${selectedDate}" onchange="attendance()">
+   </div>
+ </div>
+
+ <div class="panel">
+   <h3 style="margin-top:0;color:var(--primary);font-size:16px">Mark Daily Attendance (${selectedDate})</h3>
+   <div class="table-responsive">
+     <table>
+       <tr><th>Worker Name</th><th>Centre</th><th>Role</th><th>Phone</th><th>Attendance Status</th></tr>
+       ${displayWorkers.map(w => {
+         const existing = db.attendance.find(a => a.date === selectedDate && a.workerId === w.id);
+         const status = existing ? existing.status : "Present";
+         const canEditThis = canEdit && (u.centre === "All Centres" || u.centre === w.centre);
+         return `
+           <tr>
+             <td><b>${esc(w.name)}</b></td>
+             <td><span class="tag">${esc(w.centre)}</span></td>
+             <td>${esc(w.role)}</td>
+             <td>${esc(w.phone || '-')}</td>
+             <td>
+               <select id="status_${w.id}" ${!canEditThis ? "disabled" : ""}>
+                 <option value="Present" ${status==="Present"?"selected":""}>Present</option>
+                 <option value="Half Day" ${status==="Half Day"?"selected":""}>Half Day</option>
+                 <option value="Absent" ${status==="Absent"?"selected":""}>Absent</option>
+               </select>
+             </td>
+           </tr>
+         `;
+       }).join("") || '<tr><td colspan="5">No workers registered in selected centre.</td></tr>'}
+     </table>
+   </div>
+   <br>
+   ${canEdit && displayWorkers.length > 0 ? `<button class="btn primary" onclick="saveAttendance('${selectedCentre}', '${selectedDate}')"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save Daily Attendance</button>` : ""}
+ </div>
+
+ <div class="panel" style="margin-top:20px">
+   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+     <h3 style="margin:0;color:var(--primary);font-size:16px">Total Attendance Summary (${selectedCentre === 'All' ? 'All Centres' : selectedCentre})</h3>
+     <button class="btn primary" onclick="exportAttendanceExcel('${selectedCentre}')">
+       <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+       Download Excel Sheet
+     </button>
+   </div>
+   <div class="table-responsive">
+     <table>
+       <tr><th>Worker Name</th><th>Centre</th><th>Present Days</th><th>Half Days</th><th>Absent Days</th><th>Effective Attendance</th></tr>
+       ${displayWorkers.map(w => {
+         const logs = db.attendance.filter(a => a.workerId === w.id);
+         const pDays = logs.filter(a => a.status === "Present").length;
+         const hDays = logs.filter(a => a.status === "Half Day").length;
+         const aDays = logs.filter(a => a.status === "Absent").length;
+         const totalEff = pDays + (hDays * 0.5);
+
+         return `
+           <tr>
+             <td><b>${esc(w.name)}</b></td>
+             <td><span class="tag">${esc(w.centre)}</span></td>
+             <td><span style="color:#16714b;font-weight:bold">${pDays}</span></td>
+             <td><span style="color:#92400e;font-weight:bold">${hDays}</span></td>
+             <td><span style="color:#dc2626;font-weight:bold">${aDays}</span></td>
+             <td><b>${fmtNum(totalEff)} Days</b></td>
+           </tr>
+         `;
+       }).join("")}
+     </table>
+   </div>
+ </div>
+ `;
+}
+
+function exportAttendanceExcel(selectedCentre) {
+ const accessibleWorkers = filterByCentreAccess(db.workers, "centre");
+ const displayWorkers = selectedCentre === "All" ? accessibleWorkers : accessibleWorkers.filter(w => w.centre === selectedCentre);
+ let csv = "Worker Name,Centre,Date,Attendance Status\n";
+ 
+ displayWorkers.forEach(w => {
+   const logs = db.attendance.filter(a => a.workerId === w.id);
+   if(logs.length === 0) {
+     csv += `"${w.name}","${w.centre}","N/A","No Record"\n`;
+   } else {
+     logs.forEach(l => {
+       csv += `"${w.name}","${w.centre}","${l.date}","${l.status}"\n`;
+     });
+   }
+ });
+
+ downloadCSV(csv, `Attendance_Summary_${selectedCentre}_${new Date().toISOString().slice(0,10)}.csv`);
+}
+
+function saveAttendance(selectedCentre, date) {
+ const u = getCurrentUser();
+ const accessibleWorkers = filterByCentreAccess(db.workers, "centre");
+ const displayWorkers = selectedCentre === "All" 
+   ? accessibleWorkers 
+   : accessibleWorkers.filter(w => w.centre === selectedCentre);
+
+ displayWorkers.forEach(w => {
+   if (u.centre !== "All Centres" && u.centre !== w.centre) return;
+   const statusVal = document.getElementById(`status_${w.id}`)?.value || "Present";
+   const idx = db.attendance.findIndex(a => a.date === date && a.workerId === w.id);
+   if (idx >= 0) {
+     db.attendance[idx].status = statusVal;
+   } else {
+     db.attendance.push({ id: nextId("att"), date, centre: w.centre, workerId: w.id, workerName: w.name, status: statusVal });
+   }
+ });
+ logUserActivity("UPDATE_ATTENDANCE", `Updated attendance for ${date}`);
+ saveDB("✓ Attendance saved successfully");
+ attendance();
+}
+
+// 4. CENTRES
+function centres() {
+ const canEdit = canEditModule("centres");
+ const u = getCurrentUser();
+ const userCentres = filterByCentreAccess(db.centres, "name");
+ const selectedCentre = val("centreFilter") || (isExecutiveOrAdmin(u) ? "All" : u.centre);
+
+ const filteredCentres = selectedCentre === "All" ? userCentres : userCentres.filter(c => c.name === selectedCentre);
+
+ document.getElementById("main").innerHTML = `
+ ${getLockNotice("centres")}
+ <div class="title">
+   <h2 style="color:var(--primary);font-size:20px;font-weight:800;margin:0">Centres Management</h2>
+   <div style="display:flex;gap:10px;align-items:center">
+     <div>
+       <select id="centreFilter" onchange="centres()" style="padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:12.5px;background:#fff" ${!isExecutiveOrAdmin(u) ? 'disabled' : ''}>
+         ${isExecutiveOrAdmin(u) ? `<option value="All" ${selectedCentre === "All" ? "selected" : ""}>Filter Centre: All Centres</option>` : ''}
+         ${userCentres.map(c => `<option value="${esc(c.name)}" ${c.name === selectedCentre ? "selected" : ""}>${esc(c.name)}</option>`).join("")}
+       </select>
+     </div>
+     ${canEdit ? `<button class="btn primary" onclick="centreModal()"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Centre</button>` : ""}
+   </div>
+ </div>
+ <div class="panel">
+   <div class="table-responsive">
+     <table>
+       <tr><th>Centre Name</th><th>State In-Charge</th><th>Opening Date</th><th>Looms</th><th>Women Count</th><th>Status</th><th>Actions</th></tr>
+       ${filteredCentres.map(c => {
+         const wCount = db.workers.filter(w => w.centre === c.name).length;
+         return `
+           <tr>
+             <td><b>${esc(c.name)}</b></td>
+             <td><b>${esc(c.state)}</b> - ${esc(c.incharge)}</td>
+             <td>${esc(c.opening || '-')}</td>
+             <td><b>${c.looms || 0}</b></td>
+             <td><b>${wCount}</b></td>
+             <td>${badge(c.status)}</td>
+             <td>${getActionCellHTML('centres', c.name, `editCentreModal('${c.id}')`, `delRecord('centres','${c.id}')`)}</td>
+           </tr>
+         `;
+       }).join("")}
+     </table>
+   </div>
+ </div>`;
+}
+
+function centreModal(item = null) {
+ if (!canEditModule("centres")) return;
+ const x = item || { name: "", state: "", incharge: "", opening: new Date().toISOString().slice(0,10), looms: 5, status: "Active" };
+ modal(item ? "Edit Centre" : "Add Centre", `
+   <div class="form">
+     <div class="field"><label>Centre Name *</label><input id="fName" value="${esc(x.name)}"></div>
+     <div class="field"><label>State *</label><input id="fState" value="${esc(x.state)}"></div>
+     <div class="field"><label>State In-Charge Name *</label><input id="fIncharge" value="${esc(x.incharge)}"></div>
+     <div class="field"><label>Opening Date</label><input id="fOpening" type="date" value="${esc(x.opening || '')}"></div>
+     <div class="field"><label>Number of Looms</label><input id="fLooms" type="number" value="${x.looms || 0}"></div>
+     <div class="field"><label>Status</label>
+       <select id="fStatus">
+         <option value="Active" ${x.status==="Active"?"selected":""}>Active</option>
+         <option value="Inactive" ${x.status==="Inactive"?"selected":""}>Inactive</option>
+       </select>
+     </div>
+   </div>
+   <br><button class="btn primary" id="saveBtn">Save Centre</button>
+ `);
+ document.getElementById("saveBtn").onclick = () => {
+   const data = { 
+     name: val("fName"), 
+     state: val("fState"), 
+     incharge: val("fIncharge"), 
+     opening: val("fOpening"), 
+     looms: Number(val("fLooms") || 0), 
+     status: val("fStatus") 
+   };
+   if(!data.name) return alert("Centre Name is required.");
+   if (item) Object.assign(item, data);
+   else db.centres.push({ id: nextId("c"), ...data });
+   logUserActivity("SAVE_CENTRE", `Saved centre ${data.name}`);
+   saveDB(); closeM(); centres();
+ };
+}
+function editCentreModal(id) { centreModal(db.centres.find(c => c.id === id)); }
+
+// 5. PRODUCTION
+function production() {
+ const canEdit = canEditModule("production");
+ const accessibleProduction = filterByCentreAccess(db.production, "centre");
+
+ document.getElementById("main").innerHTML = `
+ ${getLockNotice("production")}
+ <div class="title">
+   <h2 style="color:var(--primary);font-size:20px;font-weight:800;margin:0">Production Log</h2>
+   ${canEdit ? `<button class="btn primary" onclick="prodModal()"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Record Production</button>` : ""}
+ </div>
+ <div class="panel">
+   <div class="table-responsive">
+     <table>
+       <tr><th>Date</th><th>Centre</th><th>Product</th><th>Qty</th><th>Unit</th><th>Worker / Group</th><th>Status</th><th>Est Time</th><th>Actions</th></tr>
+       ${accessibleProduction.map(p => `
+         <tr>
+           <td>${esc(p.date)}</td>
+           <td><b>${esc(p.centre)}</b></td>
+           <td>${esc(p.product)}</td>
+           <td><b>${fmtNum(p.qty)}</b></td>
+           <td><b>${esc(p.unit)}</b></td>
+           <td>${esc(p.worker || '-')}</td>
+           <td>${badge(p.status || 'Completed')}</td>
+           <td>${esc(p.estTime || '-')}</td>
+           <td>${getActionCellHTML('production', p.centre, `editProdModal('${p.id}')`, `delRecord('production','${p.id}')`)}</td>
+         </tr>
+       `).join("")}
+     </table>
+   </div>
+ </div>`;
+}
+
+function prodModal(item = null) {
+ if (!canEditModule("production")) return;
+ const userCentres = filterByCentreAccess(db.centres, "name");
+ const x = item || { date: new Date().toISOString().slice(0,10), centre: userCentres[0]?.name || "", product: "", qty: 1, unit: "Pieces", worker: "", hours: 8, status: "Completed", estTime: "0 Hours" };
+ 
+ const currentCentreWorkers = db.workers.filter(w => !x.centre || w.centre === x.centre);
+
+ modal(item ? "Edit Production Record" : "Record Production", `
+   <div class="form">
+     <div class="field"><label>Date</label><input id="fProdDate" type="date" value="${esc(x.date)}"></div>
+     <div class="field"><label>Centre Name *</label>
+       <select id="fProdCentre" onchange="updateProdWorkerDropdown()">
+         ${userCentres.map(c => `<option value="${esc(c.name)}" ${x.centre===c.name?"selected":""}>${esc(c.name)}</option>`).join("")}
+       </select>
+     </div>
+     <div class="field"><label>Product Name *</label><input id="fProduct" value="${esc(x.product)}"></div>
+     <div class="field"><label>Quantity *</label><input id="fQty" type="number" step="0.01" value="${x.qty}"></div>
+     <div class="field"><label>Quantity Unit *</label>
+       <select id="fUnit">
+         <option value="Pieces" ${x.unit==="Pieces"?"selected":""}>Pieces</option>
+         <option value="Meter" ${x.unit==="Meter"?"selected":""}>Meter</option>
+       </select>
+     </div>
+     <div class="field"><label>Worker / Trainee Select (Dropdown) *</label>
+       <select id="fWorkerSelect">
+         <option value="">-- Select Artisan / Trainee --</option>
+         ${currentCentreWorkers.map(w => `<option value="${esc(w.name)}" ${x.worker===w.name?"selected":""}>${esc(w.name)} (${esc(w.role)})</option>`).join("")}
+         <option value="__ADD_NEW__">+ Add New Worker / Trainee</option>
+       </select>
+     </div>
+     <div class="field"><label>Work Hours Spent</label><input id="fHours" type="number" step="0.01" value="${x.hours || 8}"></div>
+     <div class="field"><label>Production Status</label>
+       <select id="fProdStatus">
+         <option value="Completed" ${x.status==="Completed"?"selected":""}>Completed</option>
+         <option value="Pending" ${x.status==="Pending"?"selected":""}>Pending / In Progress</option>
+       </select>
+     </div>
+     <div class="field full"><label>Estimated Time Remaining (If Pending)</label><input id="fEstTime" placeholder="e.g. 2 Days, 5 Hours" value="${esc(x.estTime || '0 Hours')}"></div>
+   </div>
+   <br><button class="btn primary" id="saveBtn">Save Production Log</button>
+ `);
+
+ document.getElementById("fWorkerSelect").onchange = function() {
+   if (this.value === "__ADD_NEW__") {
+     closeM();
+     workerModal(null, val("fProdCentre"));
+   }
+ };
+
+ document.getElementById("saveBtn").onclick = () => {
+   const selectedW = val("fWorkerSelect");
+   if(selectedW === "__ADD_NEW__" || !selectedW) return alert("Please choose Worker / Trainee.");
+
+   const data = { 
+     date: val("fProdDate"), 
+     centre: val("fProdCentre"), 
+     product: val("fProduct"), 
+     qty: Number(val("fQty")), 
+     unit: val("fUnit"),
+     worker: selectedW,
+     hours: Number(val("fHours") || 8),
+     status: val("fProdStatus"),
+     estTime: val("fEstTime")
+   };
+   if(!data.product) return alert("Product name is required.");
+   if (item) Object.assign(item, data);
+   else db.production.push({ id: nextId("p"), ...data });
+   logUserActivity("SAVE_PRODUCTION", `Recorded production: ${data.product} (${data.qty} ${data.unit})`);
+   saveDB(); closeM(); production();
+ };
+}
+
+function updateProdWorkerDropdown() {
+ const cName = val("fProdCentre");
+ const selectEl = document.getElementById("fWorkerSelect");
+ if(!selectEl) return;
+
+ const filtered = db.workers.filter(w => w.centre === cName);
+ selectEl.innerHTML = `<option value="">-- Select Artisan / Trainee --</option>` +
+   filtered.map(w => `<option value="${esc(w.name)}">${esc(w.name)} (${esc(w.role)})</option>`).join("") +
+   `<option value="__ADD_NEW__">+ Add New Worker / Trainee</option>`;
+}
+
+function editProdModal(id) { prodModal(db.production.find(p => p.id === id)); }
+
+// 6. WORKERS
+function workers() {
+ const canEdit = canEditModule("workers");
+ const accessibleWorkers = filterByCentreAccess(db.workers, "centre");
+
+ document.getElementById("main").innerHTML = `
+ ${getLockNotice("workers")}
+ <div class="title">
+   <h2 style="color:var(--primary);font-size:20px;font-weight:800;margin:0">Workers & Artisans (Women & Trainees)</h2>
+   ${canEdit ? `<button class="btn primary" onclick="workerModal()"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Worker</button>` : ""}
+ </div>
+ <div class="panel">
+   <div class="table-responsive">
+     <table>
+       <tr><th>Name</th><th>Centre</th><th>Role</th><th>Phone</th><th>Actions</th></tr>
+       ${accessibleWorkers.map(w => `
+         <tr>
+           <td><b>${esc(w.name)}</b></td>
+           <td>${esc(w.centre)}</td>
+           <td>${esc(w.role)}</td>
+           <td>${esc(w.phone || '-')}</td>
+           <td>${getActionCellHTML('workers', w.centre, `editWorkerModal('${w.id}')`, `delRecord('workers','${w.id}')`)}</td>
+         </tr>
+       `).join("")}
+     </table>
+   </div>
+ </div>`;
+}
+
+function workerModal(item = null, defaultCentre = null) {
+ if (!canEditModule("workers")) return;
+ const userCentres = filterByCentreAccess(db.centres, "name");
+ const x = item || { name: "", centre: defaultCentre || userCentres[0]?.name || "", role: "Weaver", phone: "" };
+ modal(item ? "Edit Worker" : "Add Worker", `
+   <div class="form">
+     <div class="field"><label>Full Name *</label><input id="fName" value="${esc(x.name)}"></div>
+     <div class="field"><label>Centre *</label>
+       <select id="fCentre">
+         ${userCentres.map(c => `<option value="${esc(c.name)}" ${x.centre===c.name?"selected":""}>${esc(c.name)}</option>`).join("")}
+       </select>
+     </div>
+     <div class="field"><label>Role / Skill</label>
+       <select id="fRole">
+         <option value="Senior Weaver" ${x.role==="Senior Weaver"?"selected":""}>Senior Weaver</option>
+         <option value="Weaver" ${x.role==="Weaver"?"selected":""}>Weaver</option>
+         <option value="Trainee" ${x.role==="Trainee"?"selected":""}>Trainee</option>
+         <option value="Helper" ${x.role==="Helper"?"selected":""}>Helper</option>
+       </select>
+     </div>
+     <div class="field"><label>Phone Number</label><input id="fPhone" value="${esc(x.phone)}"></div>
+   </div>
+   <br><button class="btn primary" id="saveWorkerBtn"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save Worker</button>
+ `);
+
+ document.getElementById("saveWorkerBtn").onclick = () => {
+   const data = { name: val("fName"), centre: val("fCentre"), role: val("fRole"), phone: val("fPhone"), status: "Active" };
+   if (!data.name) return alert("Worker Name is required.");
+   if (item) Object.assign(item, data);
+   else db.workers.push({ id: nextId("w"), ...data });
+   logUserActivity("SAVE_WORKER", `Saved worker profile: ${data.name}`);
+   saveDB("✓ Worker saved"); closeM();
+   if (current === "attendance") attendance(); 
+   else if (current === "production") prodModal();
+   else workers();
+ };
+}
+function editWorkerModal(id) { workerModal(db.workers.find(w => w.id === id)); }
+
+// 7. YARN & STOCK
+function yarn() {
+ const canEdit = canEditModule("yarn");
+ const accessibleYarn = filterByCentreAccess(db.yarn, "centre");
+
+ document.getElementById("main").innerHTML = `
+ ${getLockNotice("yarn")}
+ <div class="title">
+   <h2 style="color:var(--primary);font-size:20px;font-weight:800;margin:0">Yarn & Stock Management</h2>
+   ${canEdit ? `<button class="btn primary" onclick="yarnModal()"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Allocate Yarn</button>` : ""}
+ </div>
+ <div class="panel">
+   <div class="table-responsive">
+     <table>
+       <tr><th>Centre Name</th><th>Item Specification</th><th>Allocated Qty</th><th>Allocated Date</th><th>Received Qty</th><th>Received Date</th><th>Pending Qty</th><th>Unit</th><th>Actions</th></tr>
+       ${accessibleYarn.map(y => `
+         <tr>
+           <td><b>${esc(y.centre)}</b></td>
+           <td>${esc(y.item)}</td>
+           <td><b>${fmtNum(y.allocated)}</b></td>
+           <td>${esc(y.allocDate || '-')}</td>
+           <td><span style="color:#16714b;font-weight:bold">${fmtNum(y.received || 0)}</span></td>
+           <td>${esc(y.recDate || '-')}</td>
+           <td><b style="color:#dc2626">${fmtNum(y.pending)}</b></td>
+           <td><span class="tag">${esc(y.unit || 'kg')}</span></td>
+           <td>${getActionCellHTML('yarn', y.centre, `editYarnModal('${y.id}')`, `delRecord('yarn','${y.id}')`)}</td>
+         </tr>
+       `).join("")}
+     </table>
+   </div>
+ </div>`;
+}
+
+function yarnModal(item = null) {
+ if (!canEditModule("yarn")) return;
+ const userCentres = filterByCentreAccess(db.centres, "name");
+ const today = new Date().toISOString().slice(0,10);
+ const x = item || { centre: userCentres[0]?.name || "", item: "", allocated: 10, received: 0, pending: 10, unit: "kg", allocDate: today, recDate: today };
+ modal(item ? "Edit Yarn Allocation & Receiving" : "Allocate Yarn", `
+   <div class="form">
+     <div class="field"><label>Centre Name *</label>
+       <select id="fYarnCentre">
+         ${userCentres.map(c => `<option value="${esc(c.name)}" ${x.centre===c.name?"selected":""}>${esc(c.name)}</option>`).join("")}
+       </select>
+     </div>
+     <div class="field"><label>Yarn Item Specs *</label><input id="fItem" value="${esc(x.item)}"></div>
+     <div class="field"><label>Allocated Quantity</label><input id="fAlloc" type="number" step="0.01" value="${x.allocated}"></div>
+     <div class="field"><label>Allocation Date</label><input id="fAllocDate" type="date" value="${esc(x.allocDate || today)}"></div>
+     <div class="field"><label>Received Quantity</label><input id="fRec" type="number" step="0.01" value="${x.received || 0}"></div>
+     <div class="field"><label>Received Date</label><input id="fRecDate" type="date" value="${esc(x.recDate || today)}"></div>
+     <div class="field"><label>Quantity Unit</label>
+       <select id="fYarnUnit">
+         <option value="kg" ${x.unit==="kg"?"selected":""}>kg (Kilograms)</option>
+         <option value="Bales" ${x.unit==="Bales"?"selected":""}>Bales</option>
+         <option value="Bundles" ${x.unit==="Bundles"?"selected":""}>Bundles</option>
+       </select>
+     </div>
+   </div>
+   <br><button class="btn primary" id="saveYarnBtn"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save Yarn Details</button>
+ `);
+
+ document.getElementById("saveYarnBtn").onclick = () => {
+   const alloc = Number(val("fAlloc") || 0);
+   const rec = Number(val("fRec") || 0);
+   const pend = alloc - rec;
+
+   const data = { 
+     centre: val("fYarnCentre"), 
+     item: val("fItem"), 
+     allocated: alloc, 
+     received: rec,
+     pending: pend >= 0 ? pend : 0, 
+     unit: val("fYarnUnit"), 
+     allocDate: val("fAllocDate"),
+     recDate: val("fRecDate"),
+     status: pend <= 0 ? "Completed" : "Pending" 
+   };
+   if (!data.item) return alert("Yarn item name required.");
+   if (item) Object.assign(item, data);
+   else db.yarn.push({ id: nextId("y"), ...data });
+   logUserActivity("SAVE_YARN", `Allocated yarn: ${data.item} (${data.allocated} ${data.unit})`);
+   saveDB("✓ Yarn saved"); closeM(); yarn();
+ };
+}
+function editYarnModal(id) { yarnModal(db.yarn.find(y => y.id === id)); }
+
+// 8. PAYMENTS & WAGES
+function payments() {
+ const canEdit = canEditModule("payments");
+ const accessiblePayments = filterByCentreAccess(db.payments, "centre");
+
+ document.getElementById("main").innerHTML = `
+ ${getLockNotice("payments")}
+ <div class="title">
+   <h2 style="color:var(--primary);font-size:20px;font-weight:800;margin:0">Payments & Wage Management</h2>
+   ${canEdit ? `<button class="btn primary" onclick="paymentModal()"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Payment Record</button>` : ""}
+ </div>
+ <div class="panel">
+   <div class="table-responsive">
+     <table>
+       <tr><th>Date</th><th>Centre</th><th>Worker Name</th><th>Work Details</th><th>Qty</th><th>Rate (₹)</th><th>Total Amount (₹)</th><th>Status</th><th>Actions</th></tr>
+       ${accessiblePayments.map(p => `
+         <tr>
+           <td>${esc(p.date)}</td>
+           <td><b>${esc(p.centre || '-')}</b></td>
+           <td><b>${esc(p.worker)}</b></td>
+           <td>${esc(p.work || '-')}</td>
+           <td>${fmtNum(p.qty || 1)}</td>
+           <td>₹${fmtNum(p.rate || p.amount)}</td>
+           <td><b style="color:var(--primary)">₹${fmtNum(p.amount)}</b></td>
+           <td>${badge(p.status || 'Paid')}</td>
+           <td>${getActionCellHTML('payments', p.centre, `editPaymentModal('${p.id}')`, `delRecord('payments','${p.id}')`)}</td>
+         </tr>
+       `).join("")}
+     </table>
+   </div>
+ </div>`;
+}
+
+function paymentModal(item = null) {
+ if (!canEditModule("payments")) return;
+ const userCentres = filterByCentreAccess(db.centres, "name");
+ const x = item || { 
+   date: new Date().toISOString().slice(0,10), 
+   centre: userCentres[0]?.name || "", 
+   worker: "", 
+   work: "", 
+   qty: 1, 
+   rate: 100, 
+   amount: 100, 
+   status: "Paid" 
+ };
+
+ modal(item ? "Edit Payment & Wage Record" : "Add Payment Record", `
+   <div class="form">
+     <div class="field"><label>Date *</label><input id="fPayDate" type="date" value="${esc(x.date)}"></div>
+     <div class="field"><label>Centre Name *</label>
+       <select id="fPayCentre">
+         ${userCentres.map(c => `<option value="${esc(c.name)}" ${x.centre===c.name?"selected":""}>${esc(c.name)}</option>`).join("")}
+       </select>
+     </div>
+     <div class="field"><label>Worker / Artisan Name *</label><input id="fPayWorker" value="${esc(x.worker)}"></div>
+     <div class="field"><label>Work Description</label><input id="fPayWork" value="${esc(x.work)}"></div>
+     <div class="field"><label>Quantity</label><input id="fPayQty" type="number" step="0.01" value="${x.qty || 1}" oninput="calcPayTotal()"></div>
+     <div class="field"><label>Rate per Piece/Meter (₹)</label><input id="fPayRate" type="number" step="0.01" value="${x.rate || 100}" oninput="calcPayTotal()"></div>
+     <div class="field"><label>Total Amount (₹) *</label><input id="fPayAmount" type="number" step="0.01" value="${x.amount}"></div>
+     <div class="field"><label>Payment Status</label>
+       <select id="fPayStatus">
+         <option value="Paid" ${x.status==="Paid"?"selected":""}>Paid</option>
+         <option value="Pending" ${x.status==="Pending"?"selected":""}>Pending</option>
+       </select>
+     </div>
+   </div>
+   <br><button class="btn primary" id="savePayBtn"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save Payment Record</button>
+ `);
+
+ document.getElementById("savePayBtn").onclick = () => {
+   const data = {
+     date: val("fPayDate"),
+     centre: val("fPayCentre"),
+     worker: val("fPayWorker"),
+     work: val("fPayWork"),
+     qty: Number(val("fPayQty") || 1),
+     rate: Number(val("fPayRate") || 0),
+     amount: Number(val("fPayAmount") || 0),
+     status: val("fPayStatus")
+   };
+   if (!data.worker) return alert("Worker Name is required.");
+   if (item) Object.assign(item, data);
+   else db.payments.push({ id: nextId("pay"), ...data });
+   logUserActivity("SAVE_PAYMENT", `Logged wage payment of ₹${data.amount} to ${data.worker}`);
+   saveDB("✓ Payment record saved"); closeM(); payments();
+ };
+}
+
+function calcPayTotal() {
+ const q = Number(val("fPayQty") || 0);
+ const r = Number(val("fPayRate") || 0);
+ const amtEl = document.getElementById("fPayAmount");
+ if(amtEl) amtEl.value = (q * r).toFixed(2);
+}
+
+function editPaymentModal(id) { paymentModal(db.payments.find(p => p.id === id)); }
+
+// 9. TRAINING
+function training() {
+ const canEdit = canEditModule("training");
+ const accessibleTraining = filterByCentreAccess(db.training, "centre");
+
+ document.getElementById("main").innerHTML = `
+ ${getLockNotice("training")}
+ <div class="title">
+   <h2 style="color:var(--primary);font-size:20px;font-weight:800;margin:0">Training & Skill Enhancement Logs</h2>
+   ${canEdit ? `<button class="btn primary" onclick="trainingModal()"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Record Training Session</button>` : ""}
+ </div>
+ <div class="panel">
+   <div class="table-responsive">
+     <table>
+       <tr><th>Date</th><th>Centre Name</th><th>Trainer Expert</th><th>Training Topic / Program</th><th>Participants</th><th>Hours</th><th>Actions</th></tr>
+       ${accessibleTraining.map(t => `
+         <tr>
+           <td>${esc(t.date)}</td>
+           <td><b>${esc(t.centre)}</b></td>
+           <td>${esc(t.trainer)}</td>
+           <td><b>${esc(t.topic)}</b></td>
+           <td><span class="badge">${t.participants || 0} Artisans</span></td>
+           <td>${t.hours || 0} hrs</td>
+           <td>${getActionCellHTML('training', t.centre, `editTrainingModal('${t.id}')`, `delRecord('training','${t.id}')`)}</td>
+         </tr>
+       `).join("")}
+     </table>
+   </div>
+ </div>`;
+}
+
+function trainingModal(item = null) {
+ if (!canEditModule("training")) return;
+ const userCentres = filterByCentreAccess(db.centres, "name");
+ const x = item || { 
+   date: new Date().toISOString().slice(0,10), 
+   centre: userCentres[0]?.name || "", 
+   trainer: "", 
+   topic: "", 
+   participants: 10, 
+   hours: 4 
+ };
+
+ modal(item ? "Edit Training Session Log" : "Record Training Session", `
+   <div class="form">
+     <div class="field"><label>Date *</label><input id="fTrDate" type="date" value="${esc(x.date)}"></div>
+     <div class="field"><label>Centre Name *</label>
+       <select id="fTrCentre">
+         ${userCentres.map(c => `<option value="${esc(c.name)}" ${x.centre===c.name?"selected":""}>${esc(c.name)}</option>`).join("")}
+       </select>
+     </div>
+     <div class="field"><label>Trainer Name / Expert *</label><input id="fTrTrainer" value="${esc(x.trainer)}"></div>
+     <div class="field"><label>Topic / Skill Module *</label><input id="fTrTopic" value="${esc(x.topic)}"></div>
+     <div class="field"><label>Number of Participants</label><input id="fTrPart" type="number" value="${x.participants || 0}"></div>
+     <div class="field"><label>Training Duration (Hours)</label><input id="fTrHours" type="number" value="${x.hours || 0}"></div>
+   </div>
+   <br><button class="btn primary" id="saveTrBtn"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save Training Log</button>
+ `);
+
+ document.getElementById("saveTrBtn").onclick = () => {
+   const data = {
+     date: val("fTrDate"),
+     centre: val("fTrCentre"),
+     trainer: val("fTrTrainer"),
+     topic: val("fTrTopic"),
+     participants: Number(val("fTrPart") || 0),
+     hours: Number(val("fTrHours") || 0)
+   };
+   if(!data.topic || !data.trainer) return alert("Trainer Name and Topic are required.");
+   if (item) Object.assign(item, data);
+   else db.training.push({ id: nextId("tr"), ...data });
+   logUserActivity("SAVE_TRAINING", `Logged training session: ${data.topic}`);
+   saveDB("✓ Training log saved"); closeM(); training();
+ };
+}
+
+function editTrainingModal(id) { trainingModal(db.training.find(t => t.id === id)); }
+
+// 10. TASKS & FOLLOWUP
+function tasks() {
+ const canEdit = canEditModule("tasks");
+ const accessibleTasks = filterByCentreAccess(db.tasks, "centre");
+
+ document.getElementById("main").innerHTML = `
+ ${getLockNotice("tasks")}
+ <div class="title">
+   <h2 style="color:var(--primary);font-size:20px;font-weight:800;margin:0">Tasks & Operational Followups</h2>
+   ${canEdit ? `<button class="btn primary" onclick="taskModal()"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Create Task</button>` : ""}
+ </div>
+ <div class="panel">
+   <div class="table-responsive">
+     <table>
+       <tr><th>Task Title</th><th>Assigned Centre</th><th>Due Date</th><th>Priority</th><th>Owner / Person Incharge</th><th>Status</th><th>Actions</th></tr>
+       ${accessibleTasks.map(t => `
+         <tr>
+           <td><b>${esc(t.task)}</b></td>
+           <td><span class="tag">${esc(t.centre)}</span></td>
+           <td>${esc(t.due)}</td>
+           <td>${badge(t.priority)}</td>
+           <td>${esc(t.owner || '-')}</td>
+           <td>${badge(t.status)}</td>
+           <td>${getActionCellHTML('tasks', t.centre, `editTaskModal('${t.id}')`, `delRecord('tasks','${t.id}')`)}</td>
+         </tr>
+       `).join("")}
+     </table>
+   </div>
+ </div>`;
+}
+
+function taskModal(item = null) {
+ if (!canEditModule("tasks")) return;
+ const userCentres = filterByCentreAccess(db.centres, "name");
+ const x = item || { 
+   task: "", 
+   centre: "All Centres", 
+   due: new Date().toISOString().slice(0,10), 
+   priority: "Medium", 
+   status: "Open", 
+   owner: "" 
+ };
+
+ modal(item ? "Edit Action Task" : "Create Action Task", `
+   <div class="form">
+     <div class="field full"><label>Task Description *</label><input id="fTName" value="${esc(x.task)}"></div>
+     <div class="field"><label>Centre Designation *</label>
+       <select id="fTCentre">
+         <option value="All Centres" ${x.centre==="All Centres"?"selected":""}>All Centres (Global Task)</option>
+         ${userCentres.map(c => `<option value="${esc(c.name)}" ${x.centre===c.name?"selected":""}>${esc(c.name)}</option>`).join("")}
+       </select>
+     </div>
+     <div class="field"><label>Due Date *</label><input id="fTDue" type="date" value="${esc(x.due)}"></div>
+     <div class="field"><label>Priority Level</label>
+       <select id="fTPri">
+         <option value="High" ${x.priority==="High"?"selected":""}>High Priority</option>
+         <option value="Medium" ${x.priority==="Medium"?"selected":""}>Medium Priority</option>
+         <option value="Low" ${x.priority==="Low"?"selected":""}>Low Priority</option>
+       </select>
+     </div>
+     <div class="field"><label>Task Status</label>
+       <select id="fTStat">
+         <option value="Open" ${x.status==="Open"?"selected":""}>Open</option>
+         <option value="In Progress" ${x.status==="In Progress"?"selected":""}>In Progress</option>
+         <option value="Completed" ${x.status==="Completed"?"selected":""}>Completed</option>
+       </select>
+     </div>
+     <div class="field full"><label>Assigned Person / Lead Name</label><input id="fTOwner" value="${esc(x.owner)}"></div>
+   </div>
+   <br><button class="btn primary" id="saveTaskBtn"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save Task</button>
+ `);
+
+ document.getElementById("saveTaskBtn").onclick = () => {
+   const data = {
+     task: val("fTName"),
+     centre: val("fTCentre"),
+     due: val("fTDue"),
+     priority: val("fTPri"),
+     status: val("fTStat"),
+     owner: val("fTOwner")
+   };
+   if(!data.task) return alert("Task description is required.");
+   if (item) Object.assign(item, data);
+   else db.tasks.push({ id: nextId("t"), ...data });
+   logUserActivity("SAVE_TASK", `Saved task: ${data.task}`);
+   saveDB("✓ Task saved"); closeM(); tasks();
+ };
+}
+
+function editTaskModal(id) { taskModal(db.tasks.find(t => t.id === id)); }
+
+// 11. REPORTS
+function reports() {
+ document.getElementById("main").innerHTML = `
+ <div class="title">
+   <h2 style="color:var(--primary);font-size:20px;font-weight:800;margin:0">Reports & Analytics Export Hub</h2>
+ </div>
+ <div class="panel">
+   <p style="margin-top:0">Export complete data logs into CSV/Excel format for executive reporting.</p>
+   <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px">
+     <button class="btn primary" onclick="exportDataCSV('production')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export Production CSV</button>
+     <button class="btn primary" onclick="exportDataCSV('workers')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export Artisans CSV</button>
+     <button class="btn primary" onclick="exportDataCSV('payments')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export Payments CSV</button>
+     <button class="btn primary" onclick="exportDataCSV('yarn')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export Yarn Inventory CSV</button>
+   </div>
+ </div>`;
+}
+
+function exportDataCSV(key) {
+ const dataArr = filterByCentreAccess(db[key] || [], key === 'centres' ? 'name' : 'centre');
+ if (!dataArr.length) return alert("No data available to export.");
+ 
+ const keys = Object.keys(dataArr[0]);
+ let csv = keys.join(",") + "\n";
+ dataArr.forEach(row => {
+   csv += keys.map(k => `"${String(row[k] ?? '').replace(/"/g, '""')}"`).join(",") + "\n";
+ });
+ downloadCSV(csv, `Ekal_${key}_Report_${new Date().toISOString().slice(0,10)}.csv`);
+}
+
+// 12. AI ASSISTANT
+function ai() {
+ document.getElementById("main").innerHTML = `
+ <div class="title">
+   <h2 style="color:var(--primary);font-size:20px;font-weight:800;margin:0">Ekal Operations AI Assistant</h2>
+ </div>
+ <div class="panel">
+   <p style="margin-top:0">Ask operational queries about centres, yarn allocations, production, or artisan counts.</p>
+   <div style="display:flex;gap:10px;margin-top:14px">
+     <input id="aiQuery" placeholder="e.g., How many looms are active in Dindori?" style="flex:1;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;outline:none">
+     <button class="btn primary" onclick="processAIQuery()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg> Ask AI</button>
+   </div>
+   <div id="aiResponse" style="margin-top:16px;padding:16px;border-radius:8px;background:#f8faf9;border:1px solid var(--border-color);display:none"></div>
+ </div>`;
+}
+
+function processAIQuery() {
+ const q = val("aiQuery").toLowerCase();
+ const resEl = document.getElementById("aiResponse");
+ if (!q) return;
+ 
+ resEl.style.display = "block";
+ let answer = "AI Analysis: I could not match your query with current database records. Try asking about 'centres', 'yarn', or 'production'.";
+
+ if (q.includes("loom") || q.includes("centre")) {
+   const totalL = db.centres.reduce((s, c) => s + Number(c.looms || 0), 0);
+   answer = `<b>Centre & Loom Insight:</b> There are currently <b>${db.centres.length} active centres</b> with a total capacity of <b>${totalL} looms</b> registered in system.`;
+ } else if (q.includes("yarn") || q.includes("stock")) {
+   const totalY = db.yarn.reduce((s, y) => s + Number(y.allocated || 0), 0);
+   const pendY = db.yarn.reduce((s, y) => s + Number(y.pending || 0), 0);
+   answer = `<b>Yarn Inventory Insight:</b> Total allocated yarn is <b>${totalY} kg</b>. Current pending delivery to centres stands at <b>${pendY} kg</b>.`;
+ } else if (q.includes("worker") || q.includes("artisan") || q.includes("women")) {
+   answer = `<b>Artisan Empowerment Insight:</b> System has <b>${db.workers.length} active women artisans & trainees</b> across all regional project hubs.`;
+ }
+
+ resEl.innerHTML = answer;
+}
+
+// 13. USERS (ADMIN)
+function users() {
+ if (getCurrentUser()?.role !== "ADMINISTRATOR") return;
+ document.getElementById("main").innerHTML = `
+ <div class="title">
+   <h2 style="color:var(--primary);font-size:20px;font-weight:800;margin:0">User Access & Role Management</h2>
+   <button class="btn primary" onclick="userModal()"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Create User Profile</button>
+ </div>
+ <div class="panel">
+   <div class="table-responsive">
+     <table>
+       <tr><th>Name</th><th>Email / User ID</th><th>Phone</th><th>Role</th><th>Centre Scope</th><th>Access Level</th><th>Actions</th></tr>
+       ${db.users.map(u => `
+         <tr>
+           <td><b>${esc(u.name)}</b></td>
+           <td>${esc(u.email)}</td>
+           <td>${esc(u.phone || '-')}</td>
+           <td><span class="tag tag-admin">${esc(u.role)}</span></td>
+           <td>${esc(u.centre)}</td>
+           <td><b>${esc(u.accessLevel)}</b></td>
+           <td>
+             <button class="btn sm edit-btn" onclick="editUserModal('${u.id}')">Edit</button>
+             ${u.role !== 'ADMINISTRATOR' ? `<button class="btn sm danger" onclick="delRecord('users','${u.id}')">Delete</button>` : ''}
+           </td>
+         </tr>
+       `).join("")}
+     </table>
+   </div>
+ </div>`;
+}
+
+function userModal(item = null) {
+ const x = item || { name: "", email: "", pass: "123456", role: "CENTRE_INCHARGE", centre: "All Centres", accessLevel: "EDIT", phone: "" };
+ modal(item ? "Edit User Access Profile" : "Create User Profile", `
+   <div class="form">
+     <div class="field"><label>Full Name *</label><input id="fUName" value="${esc(x.name)}"></div>
+     <div class="field"><label>Email ID / Login ID *</label><input id="fUEmail" value="${esc(x.email)}"></div>
+     <div class="field"><label>Mobile Phone (for OTP Login) *</label><input id="fUPhone" value="${esc(x.phone)}"></div>
+     <div class="field"><label>Password *</label><input id="fUPass" value="${esc(x.pass)}"></div>
+     <div class="field"><label>User Role *</label>
+       <select id="fURole">
+         <option value="ADMINISTRATOR" ${x.role==="ADMINISTRATOR"?"selected":""}>ADMINISTRATOR</option>
+         <option value="EXECUTIVE_DIRECTOR" ${x.role==="EXECUTIVE_DIRECTOR"?"selected":""}>EXECUTIVE DIRECTOR</option>
+         <option value="EXECUTIVE_ASSISTANT" ${x.role==="EXECUTIVE_ASSISTANT"?"selected":""}>EXECUTIVE ASSISTANT</option>
+         <option value="CENTRE_INCHARGE" ${x.role==="CENTRE_INCHARGE"?"selected":""}>CENTRE INCHARGE</option>
+         <option value="HR" ${x.role==="HR"?"selected":""}>HR MANAGER</option>
+         <option value="PROJECT_HEAD_INTERNAL" ${x.role==="PROJECT_HEAD_INTERNAL"?"selected":""}>PROJECT HEAD INTERNAL</option>
+         <option value="PROJECT_HEAD_EXTERNAL" ${x.role==="PROJECT_HEAD_EXTERNAL"?"selected":""}>PROJECT HEAD EXTERNAL</option>
+         <option value="PROJECT_COORDINATOR" ${x.role==="PROJECT_COORDINATOR"?"selected":""}>PROJECT COORDINATOR</option>
+       </select>
+     </div>
+     <div class="field"><label>Centre Jurisdiction *</label>
+       <select id="fUCentre">
+         <option value="All Centres" ${x.centre==="All Centres"?"selected":""}>All Centres</option>
+         ${db.centres.map(c => `<option value="${esc(c.name)}" ${x.centre===c.name?"selected":""}>${esc(c.name)}</option>`).join("")}
+       </select>
+     </div>
+     <div class="field full"><label>Permission Level *</label>
+       <select id="fUAccess">
+         <option value="FULL" ${x.accessLevel==="FULL"?"selected":""}>FULL Access (Admin & Execs)</option>
+         <option value="EDIT" ${x.accessLevel==="EDIT"?"selected":""}>EDIT Access (Standard Operative)</option>
+         <option value="VIEW_ONLY" ${x.accessLevel==="VIEW_ONLY"?"selected":""}>VIEW_ONLY Access (Auditors & HR)</option>
+       </select>
+     </div>
+   </div>
+   <br><button class="btn primary" id="saveUserBtn"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save User Access Profile</button>
+ `);
+
+ document.getElementById("saveUserBtn").onclick = () => {
+   const data = {
+     name: val("fUName"),
+     email: val("fUEmail"),
+     phone: val("fUPhone"),
+     pass: val("fUPass"),
+     role: val("fURole"),
+     centre: val("fUCentre"),
+     accessLevel: val("fUAccess")
+   };
+   if (!data.name || !data.email) return alert("User Name and Email required.");
+   if (item) Object.assign(item, data);
+   else db.users.push({ id: nextId("u"), ...data });
+   logUserActivity("SAVE_USER", `Saved user profile: ${data.email}`);
+   saveDB("✓ User saved"); closeM(); users();
+ };
+}
+
+function editUserModal(id) { userModal(db.users.find(u => u.id === id)); }
+
+// 14. USER ACTIVITY LOGS (ADMIN ONLY)
+function useractivity() {
+ if (getCurrentUser()?.role !== "ADMINISTRATOR") return;
+ const logs = db.activityLogs || [];
+ document.getElementById("main").innerHTML = `
+ <div class="title">
+   <h2 style="color:var(--primary);font-size:20px;font-weight:800;margin:0">User Activity Audit Trail</h2>
+ </div>
+ <div class="panel">
+   <div class="table-responsive">
+     <table>
+       <tr><th>Timestamp</th><th>User Name</th><th>Role</th><th>Action Performed</th><th>Action Details</th></tr>
+       ${logs.map(l => `
+         <tr>
+           <td><span class="muted">${esc(l.timestamp)}</span></td>
+           <td><b>${esc(l.userName)}</b><br><span class="small muted">${esc(l.userEmail)}</span></td>
+           <td><span class="tag tag-admin">${esc(l.userRole)}</span></td>
+           <td><b>${esc(l.action)}</b></td>
+           <td>${esc(l.details)}</td>
+         </tr>
+       `).join("") || '<tr><td colspan="5">No activity logged yet.</td></tr>'}
+     </table>
+   </div>
+ </div>`;
+}
+
+// 15. BACKUP & RESTORE
+function backup() {
+ document.getElementById("main").innerHTML = `
+ <div class="title">
+   <h2 style="color:var(--primary);font-size:20px;font-weight:800;margin:0">Database Backup & System Recovery</h2>
+ </div>
+ <div class="panel">
+   <h3 style="margin-top:0;color:var(--primary);font-size:16px">Export System Database Backup</h3>
+   <p>Save a full snapshot JSON file of centres, workers, yarn stocks, and logs for safekeeping.</p>
+   <button class="btn primary" onclick="exportBackup()"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Download Backup JSON</button>
+   
+   <hr style="margin:24px 0;border:0;border-top:1px solid var(--border-color)">
+   
+   <h3 style="color:var(--primary);font-size:16px">Restore System Database</h3>
+   <p>Upload a JSON backup file to restore system state.</p>
+   <input type="file" id="backupFile" accept=".json" style="margin-bottom:12px"><br>
+   <button class="btn primary" onclick="restoreBackup()"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Upload & Restore JSON Data</button>
+ </div>`;
+}
+
+function exportBackup() {
+ const str = JSON.stringify(db, null, 2);
+ const blob = new Blob([str], { type: "application/json" });
+ const link = document.createElement("a");
+ link.href = URL.createObjectURL(blob);
+ link.download = `Ekal_Handloom_Backup_${new Date().toISOString().slice(0,10)}.json`;
+ link.click();
+}
+
+function restoreBackup() {
+ const fileInput = document.getElementById("backupFile");
+ if (!fileInput.files.length) return alert("Please select a JSON backup file first.");
+ 
+ const file = fileInput.files[0];
+ const reader = new FileReader();
+ reader.onload = function(e) {
+   try {
+     const parsed = JSON.parse(e.target.result);
+     if (parsed && parsed.centres && parsed.users) {
+       db = parsed;
+       saveDB("✓ System restored successfully from JSON backup!");
+       setTimeout(() => location.reload(), 1000);
+     } else {
+       alert("Invalid backup JSON structure.");
+     }
+   } catch(err) {
+     alert("Failed to parse JSON file.");
+   }
+ };
+ reader.readAsText(file);
+}
+
+// App Initialization
+startApp();
+</script>
+</body>
+</html>
